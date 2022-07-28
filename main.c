@@ -3,6 +3,7 @@
 #include <time.h>
 #include <unistd.h>
 #include <omp.h>
+#include <string.h>
 
 #define MAX_ROWS 100
 #define MAX_COLUMNS 100
@@ -66,8 +67,10 @@ int main(int argc, char const *argv[])
 
   unsigned i = ROUNDS;
   while (i--) {
-    //system("clear");
-    //printCurrentState(board);
+    if (argc>1 && strcmp(argv[1], "-p") == 0) {
+	system("clear");
+    	printCurrentState(board);
+    }
     setNextState(board);
   }
   
