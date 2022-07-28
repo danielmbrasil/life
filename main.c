@@ -2,9 +2,12 @@
 #include <stdlib.h>
 #include <time.h>
 #include <unistd.h>
+#include <omp.h>
+#include <string.h>
 
-#define MAX_ROWS 25
-#define MAX_COLUMNS 60
+#define MAX_ROWS 100
+#define MAX_COLUMNS 100
+#define ROUNDS 50000
 
 // initializes board with 0's and 1's randomly
 void initializeRandomState(unsigned char board[MAX_ROWS+1][MAX_COLUMNS+1]) {
@@ -37,6 +40,7 @@ void setNextState(unsigned char board[MAX_ROWS+1][MAX_COLUMNS+1]) {
   unsigned char nextBoard[MAX_ROWS+1][MAX_COLUMNS+1] = {0};
 
   // i=1, j=1 so ghost cells are ignored
+  #pragma omp parallel for collapse(2)
   for (unsigned i = 1; i <= MAX_ROWS; ++i) {
     for (unsigned j = 1; j <= MAX_COLUMNS; ++j) {
       unsigned char totalLiveNeighbors = liveNeighbors(board, i, j);
@@ -61,12 +65,14 @@ int main(int argc, char const *argv[])
   unsigned char board[MAX_ROWS+1][MAX_COLUMNS+1] = {0};
   initializeRandomState(board);
 
-  unsigned i = 1000;
+  unsigned i = ROUNDS;
   while (i--) {
-    system("clear");
-    printCurrentState(board);
+    if (argc>1 && strcmp(argv[1], "-p") == 0) {
+	system("clear");
+    	printCurrentState(board);
+    }
     setNextState(board);
-    usleep(50000);
   }
+  
   return 0;
 }
