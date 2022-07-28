@@ -62,7 +62,7 @@ void setNextState(unsigned char board[MAX_ROWS+1][MAX_COLUMNS+1]) {
 int main(int argc, char const *argv[])
 {
   srand(time(NULL));
-  unsigned char board[MAX_ROWS+1][MAX_COLUMNS+1];
+  unsigned char board[MAX_ROWS+1][MAX_COLUMNS+1] = {0};
   initializeRandomState(board);
 
   unsigned i = ROUNDS;
