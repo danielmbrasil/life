@@ -53,10 +53,9 @@ void setNextState(unsigned char board[MAX_ROWS+1][MAX_COLUMNS+1]) {
     }
   }
 
-  // copies nextBoard into board
-  for (unsigned i = 1; i <= MAX_ROWS; ++i)
-    for (unsigned j = 1; j <= MAX_COLUMNS; ++j)
-      board[i][j] = nextBoard[i][j];
+  //swap matrix board and nextBoard 
+  memcpy(board, nextBoard, sizeof(nextBoard));
+  
 }
 
 int main(int argc, char const *argv[])
